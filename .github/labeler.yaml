@@ -1,0 +1,7 @@
+repo:
+  - .github/**/*
+  - README.md
+  - .giignore
+  - .gitattributes
+  - .gitmodules/**/*
+  - LICENSE

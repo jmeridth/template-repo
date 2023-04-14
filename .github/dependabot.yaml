@@ -1,0 +1,7 @@
+version: 2
+udpates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      timezone: 'America/Chicago'
