@@ -2,6 +2,8 @@ name: 🐞 Bug
 description: File a bug/issue
 title: "[bug] <title>"
 labels: [bug, needs-triage]
+assignees:
+  - jmeridth
 body:
 - type: checkboxes
   attributes:

@@ -2,6 +2,8 @@ name: ❓ Question or Support Request
 description: Questions and requests for support
 title: "[Question/Support] <title>"
 labels: [question, support, needs-triage]
+assignees:
+  - jmeridth
 body:
 - type: checkboxes
   attributes:

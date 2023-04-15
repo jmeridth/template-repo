@@ -2,6 +2,8 @@ name: 📚 Documentation or README.md issue report
 description: File a bug/issue for docs or README.md
 title: "[bug] <title>"
 labels: [docs, needs-triage]
+assignees:
+  - jmeridth
 body:
 - type: checkboxes
   attributes:
