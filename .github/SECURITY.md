@@ -8,4 +8,4 @@ To report a security issue, go to the project's issues and create a new issue us
 
 Read the instructions of this issue template carefully, and if your report could leak data or might expose how to gain access to a restricted area or break the system, please email [jmeridth@gmail.com](mailto:jmeridth@gmail.com) and include the word "SECURITY" in the subject line.
 
-We'll endeavour to respond quickly and keep you updated throughout the process.
+We'll endeavor to respond quickly and keep you updated throughout the process.
