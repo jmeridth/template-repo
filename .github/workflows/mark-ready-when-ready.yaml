@@ -1,0 +1,36 @@
+---
+name: Mark PR Ready When Ready
+
+on:
+  pull_request:
+    types: [opened, edited, labeled, unlabeled, synchronize]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mark-ready:
+    name: Mark as ready after successful checks
+    runs-on: ubuntu-latest
+    permissions:
+      checks: read       # Read check suite results
+      contents: write    # Update PR branch
+      pull-requests: write # Mark PR as ready for review
+      statuses: read     # Read commit statuses
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'Mark Ready When Ready') &&
+      github.event.pull_request.draft == true &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Harden the runner
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+
+      - name: Mark ready when ready
+        uses: kenyonj/mark-ready-when-ready@164bebf98862a24419165413a00bab80107b25ad # v1.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
