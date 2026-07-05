@@ -1,0 +1,53 @@
+name: pre-commit autoupdate
+
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Weekly on Monday at 7am UTC
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  autoupdate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read  # Clone the repository
+      id-token: write # Federate via octo-sts
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+
+      - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        id: octo-sts
+        with:
+          scope: ${{ github.repository }}
+          identity: pre-commit-autoupdate
+
+      - name: Git checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          token: ${{ steps.octo-sts.outputs.token }}
+          persist-credentials: true # create-pull-request needs git credentials to push
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+
+      - name: Run pre-commit autoupdate
+        run: |
+          pip install pre-commit
+          pre-commit autoupdate --freeze
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ steps.octo-sts.outputs.token }}
+          commit-message: "chore(deps): update pre-commit hook versions"
+          title: "chore(deps): update pre-commit hook versions"
+          body: "Automated weekly update of pre-commit hook versions via `pre-commit autoupdate --freeze`."
+          branch: pre-commit-autoupdate
+          labels: dependencies
