@@ -1,12 +1,12 @@
 version: 2
 updates:
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      timezone: 'America/Chicago'
+      interval: "weekly"
     commit-message:
       prefix: "chore(deps)"
+    labels: ["github_actions", "dependencies"]
     groups:
       dependencies:
         applies-to: version-updates

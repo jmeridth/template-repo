@@ -1,0 +1,24 @@
+---
+name: "Release"
+on:
+  workflow_dispatch:
+  pull_request_target:
+    types: [closed]
+    branches: [main]
+permissions: {}
+jobs:
+  release:
+    permissions:
+      contents: write       # create_release, publish_release: tag + release
+      pull-requests: read   # create_release: read PR labels for release-drafter
+      id-token: write       # release_goreleaser, release_image: attestation OIDC
+      attestations: write   # release_goreleaser, release_image: build provenance
+      packages: write       # release_image: push container image (gated, but validated)
+      discussions: write    # release_discussion: announcement (gated, defensive)
+    uses: github-community-projects/ospo-reusable-workflows/.github/workflows/release.yaml@13d124b245cf85ba41d9dd58d6888979043f1a29 # v2.0.0
+    with:
+      publish: true
+      release-config-name: release-drafter.yml
+      release-only-with-label: true
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
