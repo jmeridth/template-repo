@@ -4,6 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "thursday"
     commit-message:
       prefix: "chore(deps)"
     labels: ["github_actions", "dependencies"]
